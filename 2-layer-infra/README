@@ -1,0 +1,11 @@
+This repository is a test build of an Ansible LAMP stack deployment.
+
+The three main directories are:
+
+apache_server - which covers all Apache build dependencies 
+
+mysql_server - which covers all MySQL build dependencies
+
+common - which covers all common attributes 
+
+More will be added to this over time. 

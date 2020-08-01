@@ -1,0 +1,11 @@
+---
+
+
+- name: Apache build
+
+  hosts: apache_server
+  remote_user: root
+  
+  roles:
+   - apache_server
+   - common 

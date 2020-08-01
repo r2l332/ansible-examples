@@ -1,0 +1,8 @@
+--- 
+
+vars:
+ ruser: root
+ rpassword: 1$salty$LZabLgk5mNG7bqsy65BLF1
+ dbuser: deployer
+ dbname: sakila
+ dbpassword: Sakila99

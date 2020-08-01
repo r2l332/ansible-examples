@@ -1,0 +1,14 @@
+---
+
+- name: Install Apache2 with LAMP dependencies
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+   - apache2 
+   - php5
+   - php5-mysql
+
+- name: Start Apache2 service
+  service: name=apache2 state=running enabled=yes
+
+- name: UFW firewall rule
+  ufw: rule=allow port=80 proto=tcp

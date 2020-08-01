@@ -1,0 +1,7 @@
+---
+
+- name: Change root password
+  action: user name=root update_password=always password=$6$rounds=100000$H5AGa0/0JbiQF8ap$OdwHnj7iGpf5BQ/MkeQdl1Ucs4fmsOitvjiYrPPZgBfsv3yAGJwPgS/v9eidw0v8HWbnWrJIYXKqlZmFRu8HA.
+
+- name: Webserver users
+  action: user name=deployer comment="ansible deployer" group="sudo" password=$6$rounds=100000$cEXvQl4IiyrofUN1$1k2AbfNJtmgF0j/o09WaEu5zMjquNCUi2HvoZQLUL71nKjtoMm92S1VeLim80F0TwhxN/3XmEveUkhFDV8qjR1

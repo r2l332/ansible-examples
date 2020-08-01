@@ -1,0 +1,19 @@
+---
+
+- name: Install MySQL
+  apt: name=mysql-server state=present
+
+- name: Creat user  
+  mysql_user: login_user={{ ruser }} login_password={{ rpassword }}  name={{ dbuser }} host=localhost  password={{ dbpassword }} priv=*.*:ALL,GRANT state=present
+
+- name: Create database
+  mysql_db: login_user={{ dbuser }} login_password={{ dbpassword }} name=sakila state=present
+
+- name: Copy database files to remote server
+  copy: src=roles/db_server/files/ dest=/tmp/
+
+- name: Import database schema
+  mysql_db: login_user={{ dbuser }} login_password={{ dbpassword }} name=sakila  state=import target=/tmp/sakila-schema.sql 
+
+- name: Import database data
+  mysql_db: login_user={{ dbuser }} login_password={{ dbpassword }} name=sakila  state=import target=/tmp/sakila-data.sql 

@@ -1,0 +1,4 @@
+---
+
+- name: Copy index.php to Apache server
+  copy: src=roles/apache_server/files/info.php dest=/var/www/html/  

@@ -1,0 +1,61 @@
+---
+ - hosts: all
+  
+   vars:
+      http_port: 80   
+      user_password: $1$salty$0v/zCdlahkzVuuovqWoAn0 
+      hostname: 
+      mysql_root_password: 
+      password: 
+
+   tasks:
+    - name: Change the hostname
+      hostname: name={{hostname}}     
+
+    - name: Add Sudo User
+      action: user name=deployer password={{password}}
+
+    - name: update packages
+      apt: update_cache=yes
+    
+    - name: Install Apache Web Server
+      apt: name=apache2 state=present
+
+    - name: Install PHP 
+      apt: name=php5-mysql state=present
+
+    - name: Start Apache
+      service: name=apache2 state=running enabled=yes
+
+    - name: Install PHP script
+      copy: src=index.php dest=/var/www/index.php mode=0664
+
+    - name: Install SNMP
+      apt: name=snmp state=present
+
+    #- name: Start SNMP
+     # service: name=snmp state=running enabled=yes
+
+    - name: Install MySQL
+      apt: name=mysql-server state=present
+
+    - name: Start MySQL
+      service: name=mysql state=running enabled=yes
+    
+    - name: MySQL Python package
+      apt: name=python-mysqldb state=present
+  
+    - name: Copy database files to remote server
+      copy: src=sakila-db/ dest=/tmp
+    
+    - name: Create database
+      mysql_db: login_user=root login_password={{ mysql_root_password }} name=sakila state=present
+    
+    - name: Create DB User
+      mysql_user: login_user=root login_password={{mysql_root_password}}  name=deployer host=localhost  password={{ password }} priv=*.*:ALL,GRANT state=present
+    
+    - name: feed database.sql to server
+      mysql_db: login_user=root login_password={{ mysql_root_password }} name=sakila  state=import target=/tmp/sakila-schema.sql
+
+    - name: feed data to database
+      mysql_db: login_user=root login_password={{ mysql_root_password }} name=sakila  state=import target=/tmp/sakila-data.sql

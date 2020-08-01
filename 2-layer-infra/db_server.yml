@@ -1,0 +1,9 @@
+---
+ 
+
+- hosts: db_server
+  roles:
+   - group_vars
+   - db_server
+
+  
